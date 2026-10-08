@@ -167,6 +167,11 @@ $galeri = get_posts( array(
 					<p><a href="<?php echo esc_attr( 'tel:' . preg_replace( '/[^0-9+]/', '', ragip_opt( 'ragip_phone_link' ) ) ); ?>"><?php echo esc_html( ragip_opt( 'ragip_phone' ) ); ?></a></p>
 				</div>
 				<div class="contact-item reveal">
+					<div class="ico">💬</div>
+					<h3><?php esc_html_e( 'WhatsApp', 'ragipsavas' ); ?></h3>
+					<p><a href="<?php echo esc_url( ragip_whatsapp_url() ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Mesaj gönderin', 'ragipsavas' ); ?></a></p>
+				</div>
+				<div class="contact-item reveal">
 					<div class="ico">✉️</div>
 					<h3><?php esc_html_e( 'E-posta', 'ragipsavas' ); ?></h3>
 					<p><a href="<?php echo esc_attr( 'mailto:' . antispambot( ragip_opt( 'ragip_email' ) ) ); ?>"><?php echo esc_html( ragip_opt( 'ragip_email' ) ); ?></a></p>

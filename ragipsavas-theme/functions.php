@@ -48,6 +48,7 @@ function ragip_customize_register( $wp_customize ) {
 		'ragip_address' => array( 'label' => 'Adres', 'default' => "Telekom Sokak, Sinasos İş Merkezi\nKat: 2, Göktürk / İstanbul", 'type' => 'textarea', 'sanitize' => 'sanitize_textarea_field' ),
 		'ragip_phone'   => array( 'label' => 'Telefon (görünen)', 'default' => '+90 (212) 322 90 90', 'type' => 'text', 'sanitize' => 'sanitize_text_field' ),
 		'ragip_phone_link' => array( 'label' => 'Telefon (bağlantı, örn. +902123229090)', 'default' => '+902123229090', 'type' => 'text', 'sanitize' => 'sanitize_text_field' ),
+		'ragip_whatsapp' => array( 'label' => 'WhatsApp numarası (ülke koduyla, örn. 905xxxxxxxxx)', 'default' => '902123229090', 'type' => 'text', 'sanitize' => 'sanitize_text_field' ),
 		'ragip_email'   => array( 'label' => 'E-posta', 'default' => 'istanbul@ragipsavassanat.com', 'type' => 'email', 'sanitize' => 'sanitize_email' ),
 		'ragip_lat'     => array( 'label' => 'Harita enlem (latitude)', 'default' => '41.177000', 'type' => 'text', 'sanitize' => 'sanitize_text_field' ),
 		'ragip_lng'     => array( 'label' => 'Harita boylam (longitude)', 'default' => '28.887333', 'type' => 'text', 'sanitize' => 'sanitize_text_field' ),
@@ -79,6 +80,7 @@ function ragip_opt( $key ) {
 		'ragip_address'    => "Telekom Sokak, Sinasos İş Merkezi\nKat: 2, Göktürk / İstanbul",
 		'ragip_phone'      => '+90 (212) 322 90 90',
 		'ragip_phone_link' => '+902123229090',
+		'ragip_whatsapp'   => '902123229090',
 		'ragip_email'      => 'istanbul@ragipsavassanat.com',
 		'ragip_lat'        => '41.177000',
 		'ragip_lng'        => '28.887333',
@@ -124,3 +126,14 @@ require_once get_template_directory() . '/inc/setup.php';
 
 require_once get_template_directory() . '/inc/appointments.php';
 require_once get_template_directory() . '/inc/admin-panel.php';
+
+/**
+ * WhatsApp bağlantısı: numara boşsa null döner (düğme gösterilmez)
+ */
+function ragip_whatsapp_url() {
+	$numara = preg_replace( '/\D/', '', (string) ragip_opt( 'ragip_whatsapp' ) );
+	if ( strlen( $numara ) < 10 ) {
+		return null;
+	}
+	return 'https://wa.me/' . $numara . '?text=' . rawurlencode( 'Merhaba, bilgi almak istiyorum.' );
+}

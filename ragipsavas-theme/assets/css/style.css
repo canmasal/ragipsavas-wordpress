@@ -334,3 +334,22 @@ section { padding: 88px 0; }
 .slot-dolu { opacity: .55; background: #f1eee9; cursor: not-allowed; }
 .slot-dolu .slot-durum { color: #a33a2a; }
 .slot-dolu:hover { border-color: var(--border); }
+
+
+/* WhatsApp yüzen düğme */
+.whatsapp-float {
+	position: fixed;
+	right: 20px;
+	bottom: 20px;
+	z-index: 90;
+	width: 56px;
+	height: 56px;
+	border-radius: 50%;
+	background: #25d366;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+	transition: transform 0.2s ease;
+}
+.whatsapp-float:hover { transform: scale(1.08); }
