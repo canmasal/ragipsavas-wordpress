@@ -1,0 +1,11 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "landingPage": "/",
+  "preferredVersions": { "php": "8.3", "wp": "latest" },
+  "features": { "networking": true },
+  "steps": [
+    { "step": "setSiteOptions", "options": { "blogname": "Ragıp Savaş Sanat Akademisi", "timezone_string": "Europe/Istanbul" } },
+    { "step": "installTheme", "themeData": { "resource": "url", "url": "https://raw.githubusercontent.com/canmasal/ragipsavas-wordpress/main/ragipsavas-theme.zip" }, "options": { "activate": true } },
+    { "step": "login", "username": "admin", "password": "password" }
+  ]
+}
