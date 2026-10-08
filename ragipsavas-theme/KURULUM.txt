@@ -1,0 +1,40 @@
+RAGIP SAVAS SANAT AKADEMISI - WORDPRESS KURULUM REHBERI
+
+1. HOSTING VE WORDPRESS
+   - Bir hosting ve alan adi alin (ornegin ragipsavassanat.com).
+   - Hosting panelinden (cPanel) "WordPress Kur" ile WordPress'i kurun.
+
+2. TEMAYI YUKLEME
+   - WordPress paneli > Gorunum > Temalar > Yeni Ekle > Tema Yukle
+   - ragipsavas-theme.zip dosyasini secin, Yukle ve Etkinlestir.
+   - Etkinlestirme sirasinda otomatik olarak:
+     * "Basvuru Formu" sayfasi (adres: /basvuru) olusur,
+     * "Ana Menu" olusur ve ana menuye baglanir,
+     * 15 egitim kaydi ve fotograflari eklenir.
+
+3. AKADEMI BILGILERI
+   - Gorunum > Ozellestir > Akademi Bilgileri
+     (adres, telefon, e-posta, harita koordinatlari, sosyal medya)
+   - Gorunum > Ozellestir > Ana Sayfa Icerigi
+     (hero metinleri, kurumsal metinler, baslıklar)
+
+4. GALERI
+   - Panel > Galeri > Yeni Ekle: Gorseli yukleyin, baslik ve sira girin.
+   - Ana sayfada en az bir gorsel varsa Galeri bolumu gorunur.
+
+5. EGITIMLER
+   - Panel > Egitimler: Her egitimin basligi, aciklamasi ve one cikan
+     gorseli (fotograf) duzenlenebilir.
+
+6. BASVURULAR
+   - Form gonderildiginde Panel > Basvurular altinda gorunur.
+   - Durum (Yeni / Iletisime gecildi / Kayit tamamlandi / Arsiv) degistirilebilir.
+   - E-posta bildirimleri icin WP Mail SMTP gibi bir eklenti kurun.
+
+7. KONTROL LISTESI
+   [ ] Ana sayfa acilıyor
+   [ ] Menu bağlantıları calisiyor
+   [ ] Basvuru formu gonderiliyor ve panelde gorunuyor
+   [ ] Harita dogru konumu gosteriyor
+   [ ] Telefon ve e-posta bilgileri dogru
+   [ ] Galeriye en az bir gorsel eklendi
