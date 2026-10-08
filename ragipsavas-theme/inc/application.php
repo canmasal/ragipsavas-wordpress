@@ -11,7 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Başvuru sayfasının adresi (sayfa slug'ı: basvuru)
  */
 function ragip_application_url() {
-	return home_url( '/basvuru/' );
+	$sayfa = get_page_by_path( 'basvuru' );
+	return $sayfa ? get_permalink( $sayfa ) : home_url( '/basvuru/' );
 }
 
 add_action( 'admin_post_nopriv_ragip_application', 'ragip_handle_application' );

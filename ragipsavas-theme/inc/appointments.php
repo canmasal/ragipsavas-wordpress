@@ -223,7 +223,8 @@ function ragip_appointment_save_status( $post_id ) {
  * Randevu sayfası adresi
  */
 function ragip_appointment_url() {
-	return home_url( '/randevu/' );
+	$sayfa = get_page_by_path( 'randevu' );
+	return $sayfa ? get_permalink( $sayfa ) : home_url( '/randevu/' );
 }
 
 /**

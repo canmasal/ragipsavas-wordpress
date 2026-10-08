@@ -151,7 +151,10 @@ function ragip_first_setup() {
 	// 4. Saat dilimi: randevu saatleri Türkiye saatine (UTC+3) göre hesaplanır
 	update_option( 'timezone_string', 'Europe/Istanbul' );
 
-	// 5. Kalıcı bağlantılar
+	// 5. Kalıcı bağlantılar: /randevu/ ve /basvuru/ adresleri için sayfa adı tabanlı yapı
+	if ( get_option( 'permalink_structure' ) !== '/%postname%/' ) {
+		update_option( 'permalink_structure', '/%postname%/' );
+	}
 	flush_rewrite_rules();
 
 	// 6. Galeri örnekleri
