@@ -126,6 +126,7 @@ require_once get_template_directory() . '/inc/setup.php';
 
 require_once get_template_directory() . '/inc/appointments.php';
 require_once get_template_directory() . '/inc/admin-panel.php';
+require_once get_template_directory() . '/inc/site-settings.php';
 
 /**
  * WhatsApp bağlantısı: numara boşsa null döner (düğme gösterilmez)
