@@ -50,7 +50,7 @@ $dolu_aralik = ragip_busy_ranges( $gun );
 					</div>
 				</form>
 
-				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" novalidate>
+				<form method="post" class="application-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" novalidate>
 					<input type="hidden" name="action" value="ragip_appointment">
 					<?php wp_nonce_field( 'ragip_appointment', 'ragip_nonce' ); ?>
 					<!-- Spam koruması -->

@@ -240,10 +240,12 @@ section { padding: 88px 0; }
   background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 44px;
   border-top: 4px solid var(--accent);
 }
-.application-form fieldset { border: 0; margin-bottom: 28px; }
-.application-form legend {
-  font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; color: var(--primary); margin-bottom: 16px; padding: 0;
+.form-card fieldset { border: 0; margin: 0 0 28px; padding: 0; min-width: 0; }
+.form-card legend {
+  float: left; width: 100%; font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; font-weight: 600;
+  color: var(--primary); margin: 0 0 16px; padding: 0;
 }
+.form-card legend + * { clear: both; }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 20px; }
 .field { display: flex; flex-direction: column; gap: 6px; }
 .field.full { grid-column: 1 / -1; }
@@ -314,18 +316,19 @@ section { padding: 88px 0; }
 
 /* ===== Randevu ===== */
 .randevu-card { max-width: 860px; margin: 0 auto; }
-.tarih-form { margin-bottom: 26px; }
+.tarih-form { margin-bottom: 26px; padding-bottom: 22px; border-bottom: 1px solid var(--border); }
 .tarih-form label { display: block; margin-bottom: 8px; color: var(--primary); }
 .tarih-satir { display: flex; flex-wrap: wrap; gap: 12px; }
 .tarih-satir input[type="date"] {
-  font: inherit; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); min-width: 220px;
+  font: inherit; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); min-width: 220px; color: var(--text);
 }
-.slot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; margin-top: 8px; }
+.tarih-satir .btn { white-space: nowrap; }
+.slot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; margin: 0 0 8px; }
 .slot {
   position: relative; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 14px 10px;
   border: 1px solid var(--border); border-radius: 12px; background: #fff; cursor: pointer; transition: .2s ease;
 }
-.slot input { position: absolute; opacity: 0; pointer-events: none; }
+.slot input { position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0; margin: 0; }
 .slot:hover { border-color: var(--accent); }
 .slot:has(input:checked) { background: var(--primary); border-color: var(--primary); color: #fff; }
 .slot:has(input:checked) .slot-durum { color: var(--accent-light); }
@@ -334,6 +337,9 @@ section { padding: 88px 0; }
 .slot-dolu { opacity: .55; background: #f1eee9; cursor: not-allowed; }
 .slot-dolu .slot-durum { color: #a33a2a; }
 .slot-dolu:hover { border-color: var(--border); }
+.slot-dolu .slot-saat { text-decoration: line-through; }
+.randevu-card .btn-block { margin-top: 8px; }
+.randevu-card .form-note { text-align: center; margin-top: 12px; }
 
 
 /* WhatsApp yüzen düğme */
