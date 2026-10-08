@@ -7,6 +7,47 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Galeri: boşsa, tema içindeki eğitim fotoğraflarını galeriye ekler (yalnızca bir kez)
+ */
+function ragip_seed_gallery() {
+	if ( get_option( 'ragip_gallery_seeded' ) ) {
+		return;
+	}
+	require_once ABSPATH . 'wp-admin/includes/image.php';
+	$sira = 0;
+	foreach ( ragip_default_courses() as $kurs ) {
+		$dosya = get_template_directory() . '/assets/images/' . $kurs['slug'] . '.jpg';
+		if ( ! file_exists( $dosya ) ) {
+			continue;
+		}
+		$yukle = wp_upload_bits( $kurs['slug'] . '.jpg', null, file_get_contents( $dosya ) );
+		if ( ! empty( $yukle['error'] ) ) {
+			continue;
+		}
+		$ek_id = wp_insert_attachment( array(
+			'post_mime_type' => 'image/jpeg',
+			'post_title'     => $kurs['name'],
+			'post_status'    => 'inherit',
+		), $yukle['file'] );
+		if ( ! $ek_id || is_wp_error( $ek_id ) ) {
+			continue;
+		}
+		wp_update_attachment_metadata( $ek_id, wp_generate_attachment_metadata( $ek_id, $yukle['file'] ) );
+
+		$gonderi = wp_insert_post( array(
+			'post_type'   => 'ragip_gallery',
+			'post_title'  => $kurs['name'],
+			'post_status' => 'publish',
+			'menu_order'  => ++$sira,
+		) );
+		if ( $gonderi && ! is_wp_error( $gonderi ) ) {
+			set_post_thumbnail( $gonderi, $ek_id );
+		}
+	}
+	update_option( 'ragip_gallery_seeded', 1 );
+}
+
 add_action( 'after_switch_theme', 'ragip_first_setup', 20 );
 function ragip_first_setup() {
 	if ( get_option( 'ragip_setup_done' ) ) {
@@ -112,6 +153,9 @@ function ragip_first_setup() {
 
 	// 5. Kalıcı bağlantılar
 	flush_rewrite_rules();
+
+	// 6. Galeri örnekleri
+	ragip_seed_gallery();
 
 	// Sayfalar gerçekten oluştuysa kurulumu tamamlandı say (aksi halde bir sonraki temada tekrar dener)
 	if ( $basvuru_id && ! is_wp_error( $basvuru_id ) && $randevu_id && ! is_wp_error( $randevu_id ) ) {
