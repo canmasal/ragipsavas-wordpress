@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Başvuru kayıtları</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="section">
+    <div class="container">
+      <p class="eyebrow">Yönetim</p>
+      <h1 class="section-title">Branş başvuru dosyaları</h1>
+      <p class="form-status bad" id="warn" hidden>Canlıya almadan config.json içindeki panel şifresini değiştirin.</p>
+      <form class="form-card" id="login" style="max-width:420px">
+        <label class="field">
+          <span>Panel şifresi</span>
+          <input id="password" type="password" required>
+        </label>
+        <p class="form-status bad" id="loginError"></p>
+        <div class="form-actions"><button class="btn btn-primary" type="submit">Giriş</button></div>
+      </form>
+      <div id="board" hidden>
+        <div class="filters" id="areas" style="margin:18px 0"></div>
+        <h2 id="areaTitle"></h2>
+        <div class="table-wrap" style="margin-top:12px">
+          <table class="course-table">
+            <thead>
+              <tr><th>No</th><th>Tarih</th><th>Başvuran</th><th>Öğrenci</th><th>Telefon</th><th>E-posta</th><th>Yaş</th><th>Not</th><th>KVKK</th></tr>
+            </thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script>
+    const login = document.getElementById("login");
+    const board = document.getElementById("board");
+    let token = sessionStorage.getItem("rssaPanel") || "";
+
+    function cell(text) {
+      const td = document.createElement("td");
+      td.textContent = text || "";
+      return td;
+    }
+
+    async function api(path, options) {
+      const response = await fetch(path, Object.assign({
+        headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token }
+      }, options));
+      const data = await response.json().catch(function () { return {}; });
+      if (!response.ok) throw new Error(data.error || "İstek başarısız");
+      return data;
+    }
+
+    async function show(slug) {
+      const data = await api("/api/panel/basvurular?alan=" + encodeURIComponent(slug));
+      document.getElementById("areaTitle").textContent = data.alanAd;
+      const body = document.getElementById("rows");
+      body.replaceChildren();
+      const list = data.kayitlar.slice().reverse();
+      if (!list.length) {
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.colSpan = 9;
+        td.textContent = "Bu alanda kayıt yok.";
+        tr.appendChild(td);
+        body.appendChild(tr);
+        return;
+      }
+      list.forEach(function (row) {
+        const tr = document.createElement("tr");
+        [row.id, row.tarih, row.adSoyad, row.ogrenciAdSoyad, row.telefon, row.eposta, row.yasGrubu, row.mesaj, row.kvkkSurum].forEach(function (value) {
+          tr.appendChild(cell(value));
+        });
+        body.appendChild(tr);
+      });
+    }
+
+    async function openBoard() {
+      const data = await api("/api/panel/basvurular");
+      const areas = document.getElementById("areas");
+      areas.replaceChildren();
+      data.ozet.forEach(function (item) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "chip";
+        button.textContent = item.name + " (" + item.adet + ")";
+        button.addEventListener("click", function () { show(item.slug); });
+        areas.appendChild(button);
+      });
+      login.hidden = true;
+      board.hidden = false;
+      if (data.ozet[0]) show(data.ozet[0].slug);
+    }
+
+    login.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      document.getElementById("loginError").textContent = "";
+      try {
+        const data = await api("/api/panel/giris", {
+          method: "POST",
+          body: JSON.stringify({ password: document.getElementById("password").value })
+        });
+        token = data.token;
+        sessionStorage.setItem("rssaPanel", token);
+        document.getElementById("warn").hidden = !data.varsayilan;
+        await openBoard();
+      } catch (error) {
+        document.getElementById("loginError").textContent = error.message;
+      }
+    });
+
+    if (token) openBoard().catch(function () { token = ""; sessionStorage.removeItem("rssaPanel"); });
+  </script>
+</body>
+</html>
